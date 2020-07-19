@@ -1,0 +1,25 @@
+<div class='container'>
+
+    <h2>Add Location</h2>
+    
+    <form action="/location/create" method="post">
+    
+        <div class="form-group">
+            <label>Location Name</label>
+            <input class="form-control" type="text" name="locationName" placeholder="Clarke Quay">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Add Location</button>
+    </form>
+
+    <div class="mt-5">
+    <% reglocations.forEach((reg) => { %>
+            <li> <%= reg.locationName %> </li>
+        
+    <% }) %>
+    </div>
+
+
+</div>
+
+
