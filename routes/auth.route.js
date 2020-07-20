@@ -62,11 +62,11 @@ authRouter.post("/login",
     // res.send('route: /auth/register')
 )
 
-// authRouter.get("/logout", (req, res) => {
-//     req.logout();
-//     req.flash("success", "Oh no!! dont leave me!!")
-//     res.redirect('/auth/login')
-//   });
+authRouter.get("/logout", (req, res) => {
+    req.logout();
+    req.flash("success", "Oh no!! dont leave me!!")
+    res.redirect('/')
+  });
 
 
 module.exports = authRouter;

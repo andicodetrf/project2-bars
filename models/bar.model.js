@@ -11,16 +11,16 @@ const barSchema = new mongoose.Schema({
       },
     address: String,
     contactNo: String,
-    barImage: String,
+    openingHour: String,
+    HHStartTime: Number,
+    HHEndTime: Number, 
     HHStartPrice: Number,
-    HHPricePerPint: [{
-        HHbrewType: String,
+    pintPrice: [{
+        brewType: String,
         HHprice: Number,
-    }],
-    NHPricePerPint: [{
-        NHbrewType: String,
         NHprice: Number,
     }],
+    barImage: String,
     userReview: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

@@ -28,7 +28,6 @@ locRouter.post('/create', async (req, res) => {
         res.redirect('/location/create');
     }
     }catch(error) {
-
         console.log(error)
     }
 

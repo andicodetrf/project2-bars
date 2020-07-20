@@ -1,0 +1,122 @@
+<div class="container my-5">
+
+    <h2>Edit Bar</h2>
+    
+    <form action="/user/edit/<%=barShowEdit._id %>" method="post">
+    
+        <div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label>Bar Name</label>
+                <input type="text" class="form-control" name="barName" id="" value="<%= barShowEdit.barName %>">
+              </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                <label>Select Location</label>
+                <select name="barLocate" class="form-control">
+                    <option value="">Select Location</option>
+                    
+                       <% selectLocation.forEach((selectLoc) =>{ %>
+                            <option value ="<%= selectLoc._id %>"
+                            <%= (barShowEdit.barLocate._id.equals(selectLoc._id)) ? "selected" : "" %>> <%= selectLoc.locationName %> </option>
+                        <% }) %>
+               
+                </select>
+
+            </div>
+        </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label>Address</label>
+                  <input type="text" class="form-control" name="address" id="" value="<%= barShowEdit.address %>">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label>Contact No</label>
+                    <input type="text" class="form-control" name="contactNo" id="" value="<%= barShowEdit.contactNo %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label>Opening Hour</label>
+                  <input type="text" class="form-control" name="openingHour" id="" value="<%= barShowEdit.openingHour %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Happy Hour Start Time</label>
+                  <input type="text" class="form-control" name="HHStartTime" id="" value="<%= barShowEdit.HHStartTime %>">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Happy Hour End Time</label>
+                    <input type="text" class="form-control" name="HHEndTime" id="" value="<%= barShowEdit.HHEndTime %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Happy Hour Start Price</label>
+                  <input type="number" class="form-control" name="HHStartPrice" id="" value="<%= barShowEdit.HHStartPrice %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- <div id="brewtype-group-1" > -->
+                    <div class="form-group col-md-6">
+                        <label>Brew Type 1</label>
+                        <input type="text" class="form-control" name="pintPrice[0][brewType]" id="" value="<%= barShowEdit.pintPrice[0].brewType %>">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>Happy Hour Price</label>
+                        <input type="number" class="form-control" name="pintPrice[0][HHprice]" id="" value="<%= barShowEdit.pintPrice[0].HHprice%>">
+                    </div>
+                    
+                    <div class="form-group col-md-3">
+                        <label>Normal Hour Price</label>
+                        <input type="number" class="form-control" name="pintPrice[0][NHprice]" id="" value="<%= barShowEdit.pintPrice[0].NHprice%>">
+                    </div>
+                <!-- </div> -->
+
+
+                 <!-- <div id="brewtype-group-2" > -->
+                    <div class="form-group col-md-6">
+                        <label>Brew Type 2</label>
+                        <input type="text" class="form-control" name="pintPrice[1][brewType]" id="" value="<%= barShowEdit.pintPrice[1].brewType%>">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>Happy Hour Price</label>
+                        <input type="number" class="form-control" name="pintPrice[1][HHprice]" id="" value="<%= barShowEdit.pintPrice[1].HHprice%>">
+                    </div>
+                    
+                    <div class="form-group col-md-3">
+                        <label>Normal Hour Price</label>
+                        <input type="number" class="form-control" name="pintPrice[1][NHprice]" id="" value="<%= barShowEdit.pintPrice[1].NHprice%>">
+                    </div>
+
+
+                <!-- </div> -->
+            
+
+            </div>
+
+
+            <div class="form-group">
+                <label>Upload Bar Image</label>
+                <input type="file" class="form-control-file" id="">
+            </div>
+
+        <div class='mt-3'>
+            <button class="btn btn-primary" type="submit">Update Bar Info</button>
+        </div>
+    </form>
+    
+    </div>

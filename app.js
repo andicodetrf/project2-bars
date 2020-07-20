@@ -7,6 +7,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
+const Location = require('./models/location.model');
 
 /* Connect to MongoDB */
 Mongoose.connect(process.env.MONGODBURL, {
@@ -31,7 +32,7 @@ app.use(
         secret: process.env.SECRET,
         saveUninitialized: true,
         resave: false,
-        cookie: {maxAge : 360000} //0.1 hour
+        cookie: {maxAge : 3600000} //0.1 hour
     })
 );
 
@@ -52,7 +53,8 @@ app.use(function(req,res, next){
 /* ROUTES */
 app.use('/auth', require('./routes/auth.route'));
 app.use('/location', require('./routes/location.route'));
-
+app.use('/bar', require('./routes/bar.route'));
+app.use('/user', isLoggedIn, require('./routes/user.route'));
 
 
 
@@ -62,8 +64,11 @@ app.use('/location', require('./routes/location.route'));
 /*test browser connect*/
 
 app.get('/', (req,res) => {
-    res.send('port 4200 home page')
+    // res.send('port 4200 home page')
+    res.render('bar/dashboard')
+
 })
+
 
 
 app.listen(process.env.PORT, () => {

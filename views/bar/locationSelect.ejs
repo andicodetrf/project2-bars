@@ -1,0 +1,27 @@
+<div class="container">
+    
+    <h2 class="my-3">Select Location</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 my-5">
+    <% listLocations.forEach((loc) => { %>
+
+  
+        <div class="col-md-4">
+            
+            <div class="card">
+                <a href='/bar/locations/<%= loc._id %>'>
+                    
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                    <h5 class="card-title text-center text-dark mt-2"><%= loc.locationName %></h5>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+        
+
+    <% }) %>
+    </div>
+
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+
+    <h2 class="my-3">Bars in <%= barsInLocation.locationName %></h2>
+
+    <div class="row row-cols-1 row-cols-md-3 my-5">
+    <% barsInLocation.locateBar.forEach((bar) => { %>
+
+        <div class="col-md-4">
+
+            <div class="card">
+                <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title"><%= bar.barName %></h5>
+                <p class="card-text">HH at $<%= bar.HHStartPrice %></p>
+                <a href="/bar/bar/<%= bar._id %>" class="btn btn-primary">Check it out</a>
+                </div>
+            </div>
+        </div>
+
+
+    <% }) %>
+
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+
+    <div class="my-5">
+        <h5>User: <%= userSelected.fullname %></h5>
+        <h5>Registered Email: <%= userSelected.email %> </h5>
+        <a class="btn btn-primary my-3" href="/user/create">Create Bar</a>
+
+        <h5>Bars Owned:</h5>        
+    </div>
+
+    <% if(userSelected.barsOwned){ %>
+    <div class="row">
+        <!-- <h5>test</h5> -->
+        <% userSelected.barsOwned.forEach((userBar) => { %>
+           <% bar.forEach((b) => { %>
+                <% if(userBar._id.equals(b._id)) { %>
+                    <% location.forEach((loc) => { %>
+                        <% if(b.barLocate._id.equals(loc._id)) { %>
+
+                            <div class="col-md-6">
+                                <div class="card mt-5" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%=userBar.barName %></h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+                                        <p class="card-text">Bar Location: <%=loc.locationName %></p>
+                                        <p class="card-text">HH Start Price: $<%=userBar.HHStartPrice %></p>
+                                        <a href="/user/edit/<%=b._id%>" class="card-link">Edit</a>
+                                        <a href="/user/delete/<%=b._id%>" class="card-link">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } %>
+            <% }) %>
+        <% }) %>
+    </div>
+    <% } %>
+    
+</div>
