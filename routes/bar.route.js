@@ -44,27 +44,29 @@ barRouter.get("/bar/:id", async (req, res) => {
 
         /*get value of final_rating but not yet update into bar*/
         let total = 0;
-        let finalR = 0;
-        barFound.rate_reviews.forEach((a)=> {
-            total = total + a;
-        })
+		let finalR = 0;
+		if(barFound.rate_reviews.length > 0){
+			barFound.rate_reviews.forEach((a)=> {
+				total = total + a;
+			})
 
-        console.log('total', total)
-        finalR = (total / barFound.rate_reviews.length).toFixed(1);
+			console.log('total', total)
+			finalR = (total / barFound.rate_reviews.length).toFixed(1);
 
-        console.log(finalR)
+			console.log(finalR)
+
+		}
+			/*update into bar*/
+			let barFinalR = await Bar.findByIdAndUpdate(req.params.id, {final_rating : finalR})
+
+			if(barFinalR){
+				console.log('bfr', barFinalR)
+			}
 
 
-        /*update into bar*/
-        let barFinalR = await Bar.findByIdAndUpdate(req.params.id, {final_rating : finalR})
-
-        if(barFinalR){
-            console.log('bfr', barFinalR)
-        }
-
-
-		// console.log(barFound)
-		res.render("bar/barInfo", { barFound});
+			// console.log(barFound)
+			res.render("bar/barInfo", { barFound});
+		
 	} catch (error) {
 		console.log(error);
 	}
@@ -72,42 +74,119 @@ barRouter.get("/bar/:id", async (req, res) => {
 
 /* SEARCH */
 
-barRouter.get("/search", async (req, res) => {
-	console.log("search input --> ", req.query.search);
+// barRouter.get("/search", async (req, res) => {
+// 	console.log("search input --> ", req.query.search);
 
-	let searchedRes = req.query.search;
+// 	let searchedRes = req.query.search;
+
+// 	try {
+
+// 		let results = await Bar.find({
+//             // if(searhed)
+// 			$or: [
+//                 // $text: { $search: "java coffee shop" } 
+// 				// { barName : {$eq : new RegExp(req.query.search, 'i')}},
+// 				{ HHStartPrice: { $eq: req.query.search } },
+//             ],
+            
+// 		});
+
+// 		if (results) {
+// 			console.log("from search ----> ", results);
+// 			res.render("bar/results", {
+// 				results,
+// 				searchedRes,
+// 			});
+// 		}
+// 	} catch (error) {}
+
+// 	// .then((results) => {
+// 	//     console.log('from search ----> ', results);
+// 	//     res.render("bar/results", {
+// 	//         results, searchedRes
+// 	//     })
+// 	// })
+// 	// .catch(err => {
+// 	//     console.log(err);
+// 	// })
+// });
+
+barRouter.get('/search', async (req,res) => {
+	
+	let searched = req.query.search;
+	console.log(req.query)
+
+	try {
+		console.log('line120')
+		let totalResults = await Bar.find().populate('barLocate')
+
+		let searchedResults = totalResults.filter(bar => {
+            return bar.barName.toLowerCase().includes(req.query.search) ||
+				bar.barLocate.locationName.toLowerCase().includes(req.query.search) 
+				
+				// || bar.HHStartPrice.includes(parseInt(req.query.search));
+		});
+		console.log(searchedResults)
+
+
+		res.render("bar/results", {
+				searchedResults,
+				searched,
+		})
+            
+	} catch (error) {}
+
+});
+
+
+/*ADVANCED SEARCH */
+
+barRouter.get("/advSearch", async (req, res) => {
+	console.log("search input --> ", req.query);
+
+	let searched = req.query;
 
 	try {
 
-		let results = await Bar.find({
-            // if(searhed)
-			$or: [
-                // $text: { $search: "java coffee shop" } 
-				// { barName : {$eq : new RegExp(req.query.search, 'i')}},
-				{ HHStartPrice: { $eq: req.query.search } },
-            ],
-            
-		});
+		// let searchedResults = await Bar.find().populate('barLocate')
 
-		if (results) {
-			console.log("from search ----> ", results);
+
+		let searchedResults = await Bar.find().populate({
+			path: 'barLocate',
+			match : {            
+					$and: [
+						// $text: { $search: "java coffee shop" } 
+						{ barLocate : new RegExp(req.query.locationName, 'i')},
+						{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
+					],
+					
+				}
+			})
+            
+		console.log('XXXXXX' , searchedResults)
+
+		// let searchedResults = await Bar.find({
+            
+		// 	$and: [
+        //         // $text: { $search: "java coffee shop" } 
+		// 		{ barName : new RegExp(req.query.barName, 'i')},
+		// 		{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
+        //     ],
+            
+		// });
+
+		if (searchedResults) {
+			console.log("from search ----> ", searchedResults);
 			res.render("bar/results", {
-				results,
-				searchedRes,
+				searchedResults,
+				searched,
 			});
 		}
 	} catch (error) {}
 
-	// .then((results) => {
-	//     console.log('from search ----> ', results);
-	//     res.render("bar/results", {
-	//         results, searchedRes
-	//     })
-	// })
-	// .catch(err => {
-	//     console.log(err);
-	// })
 });
+
+
 
 
 barRouter.post('/rate/:id', (req,res) => {

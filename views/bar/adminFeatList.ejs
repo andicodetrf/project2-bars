@@ -1,0 +1,30 @@
+<div class="container">
+    <h4>FEATURED LIST</h4>
+
+    <form action="/user/admin/featured" method="POST">
+    <% allBars.forEach((bar) => { %>
+
+        if(bar.isFeatured){
+    <div>
+        <input type="checkbox" 
+            name="isFeatured" 
+            value="<%=bar._id%>" 
+            checked> <%=bar.barName %>
+    </div>
+<% } else {%>
+    <div>
+        <input type="checkbox" 
+            name="isFeatured" 
+            value="<%=bar._id%>" 
+        > <%=bar.barName %>
+    </div>
+
+    <% }) %>
+    
+    <hr>
+    <button class="btn btn-danger" type="submit">Update</button>
+</form>
+
+
+</div>
+

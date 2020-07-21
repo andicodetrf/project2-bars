@@ -2,7 +2,7 @@
 
     <h2>New Bar</h2>
     
-    <form action="/user/create" method="post">
+    <form action="/user/create" method="post" enctype="multipart/form-data">
     
         <div>
             <div class="form-row">
@@ -105,8 +105,11 @@
 
             <div class="form-group">
                 <label>Upload Bar Image</label>
-                <input type="file" class="form-control-file" id="">
+                <input type="file" name="barImage" class="form-control-file" id="">
+        
+
             </div>
+    
 
         <div class='mt-3'>
             <button class="btn btn-primary" type="submit">Create Bar</button>

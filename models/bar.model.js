@@ -28,7 +28,10 @@ const barSchema = new mongoose.Schema({
     rate_reviews: [Number],
     final_rating: Number,
     user_comments: [String],
-    isFeatured: Boolean,
+    isFeatured: {
+      type: Boolean,
+      default: false
+    }
 
 })
 

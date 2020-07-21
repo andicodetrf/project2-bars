@@ -2,16 +2,19 @@
 const locRouter = require('express').Router();
 const Location = require('../models/location.model')
 
+
 //Route to create location page + show all registered locations
 locRouter.get('/create', async (req, res) => {
     // res.send('create location page')
     try{
-        let reglocations = await Location.find();
-        res.render('location/create', {reglocations})
-
+        if(req.user.isAdmin) {
+            let reglocations = await Location.find();
+            res.render('location/create', {reglocations})
+        }
     } catch(error) {
         console.log(error)
     }
+    
 });
 
 

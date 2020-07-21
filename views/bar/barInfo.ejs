@@ -2,11 +2,21 @@
 
   <p class="mt-3"><a href="/bar/locations/<%= barFound.barLocate._id %>">Bars in <%= barFound.barLocate.locationName %> </a></p>
     
-    <h4 class="my-3"><u><%= barFound.barName %></u></h4>
-    Ratings: <%=barFound.final_rating %> out of 5 (<%= barFound.rate_reviews.length %> Users)
+    <% if(barFound.final_rating){ %>
+      <h4 class="my-3"><u><%= barFound.barName %></u></h4>
+      Ratings: <%=barFound.final_rating %> out of 5 (<%= barFound.rate_reviews.length %> Users)
+    <% } %>
+
+    <% let dispImg; %>
+    <% if(barFound.barImage){ %>
+      <% dispImg = barFound.barImage %>
+    <% } else { %> 
+       <% dispImg = 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681' %>
+      <% } %>
 
         <div class="card my-3">
-            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" style="height:50vh; object-fit: cover;" alt="...">
+            <img src= '<%= dispImg %>'
+            style="height:50vh; object-fit: cover;" alt="...">
             <div class="card-body">
               <h5 class="card-title"><%= barFound.barName %></h5>
               <p class="card-text text-muted">Opening Hours: <%= barFound.openingHour %></p>

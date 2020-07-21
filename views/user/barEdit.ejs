@@ -2,7 +2,7 @@
 
     <h2>Edit Bar</h2>
     
-    <form action="/user/edit/<%=barShowEdit._id %>" method="post">
+    <form action="/user/edit/<%=barShowEdit._id %>" method="post" enctype="multipart/form-data">
     
         <div>
             <div class="form-row">
@@ -108,10 +108,12 @@
 
             </div>
 
-
+            <% if(!barShowEdit.barImage){ %>
+                <p class="text-muted">there's currently no uploaded image for this bar in db</p>
+            <% } %>
             <div class="form-group">
-                <label>Upload Bar Image</label>
-                <input type="file" class="form-control-file" id="">
+                <label>Replace Bar Image</label>
+                <input type="file" name="barImage" class="form-control-file" id="">
             </div>
 
         <div class='mt-3'>
