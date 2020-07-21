@@ -62,7 +62,7 @@
             <% if(currentUser){ %>
               <% if(currentUser.isBarOwner){ %>
                     <li class="nav-item">
-                      <a class="nav-link" href="/user/show">Owner's Profile</a>
+                      <a class="nav-link" href="/user/show/<%= currentUser._id %>">Owner's Profile</a>
                     </li>
               <% } %>
             <% } %>

@@ -151,29 +151,29 @@ barRouter.get("/advSearch", async (req, res) => {
 		// let searchedResults = await Bar.find().populate('barLocate')
 
 
-		let searchedResults = await Bar.find().populate({
-			path: 'barLocate',
-			match : {            
-					$and: [
-						// $text: { $search: "java coffee shop" } 
-						{ barLocate : new RegExp(req.query.locationName, 'i')},
-						{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
-					],
+		// let searchedResults = await Bar.find().populate({
+		// 	path: 'barLocate',
+		// 	match : {            
+		// 			$and: [
+		// 				// $text: { $search: "java coffee shop" } 
+		// 				{ barLocate : new RegExp(req.query.locationName, 'i')},
+		// 				{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
+		// 			],
 					
-				}
-			})
+		// 		}
+		// 	})
             
-		console.log('XXXXXX' , searchedResults)
+		// console.log('XXXXXX' , searchedResults)
 
-		// let searchedResults = await Bar.find({
+		let searchedResults = await Bar.find({
             
-		// 	$and: [
-        //         // $text: { $search: "java coffee shop" } 
-		// 		{ barName : new RegExp(req.query.barName, 'i')},
-		// 		{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
-        //     ],
+			$and: [
+                // $text: { $search: "java coffee shop" } 
+				{ brewType : new RegExp(req.query.pintPrice[0].brewType, 'i')},
+				{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
+            ],
             
-		// });
+		});
 
 		if (searchedResults) {
 			console.log("from search ----> ", searchedResults);

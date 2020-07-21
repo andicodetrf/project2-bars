@@ -47,8 +47,7 @@ function checkFileType(file, cb){
 }
 
 
-
-userRouter.get('/show', async (req,res) => {
+userRouter.get('/show/:userid', async (req,res) => {
     try {
         if (req.user.isBarOwner) {
 
@@ -174,11 +173,7 @@ userRouter.post('/edit/:id', (req,res) => {
 })
 
 
-
-
-
 //ORIGINAL EDIT BAR
-
 // userRouter.post('/edit/:id', async (req,res) => {
 
 //     // console.log('edit post ---> ', req.body)
@@ -200,14 +195,18 @@ userRouter.post('/edit/:id', (req,res) => {
 
 /* DELETE BAR */
 userRouter.get('/delete/:barid/:userid', async (req,res) => {
+    // console.log('REQ PARAMS ID', req.params.id);
+    // console.log('REQ PARAMS ID BAR', req.params.barid);
+    // console.log('REQ PARAMS ID USER', req.params.userid);
     try {
         if(req.user.isBarOwner){
-            let barShowDelete = await Bar.findByIdAndDelete(req.params.id)
-            // let xxxx = await User.findByIdAndUpdate(req.user._id, ${})
+            let barShowDelete = await Bar.findByIdAndDelete(req.params.barid)
+            let userDeleteBar = await User.findByIdAndUpdate(req.params.userid, {$pull : {barsOwned: req.params.barid}})
             
-            if(barShowDelete) {
-                res.redirect('/user/show');
+            if(barShowDelete && userDeleteBar) {
+                res.redirect(`/user/show/${req.params.userid}`);
             }
+            // console.log('REQ PARAMS ID BAR', req.params.barid);
         } else {
             res.redirect('/');
         }
@@ -255,22 +254,101 @@ userRouter.get('/admin/featured', async(req,res) => {
 //POST TO UPDATE FEATURE LIST
 userRouter.post('/admin/featured', (req,res) => {
     // console.log(req.user)
-    // console.log(req.body)
-    // console.log(req.body.isFeatured)
-    
-    req.body.isFeatured.forEach((itemID) => {
-        Bar.findById(itemID)
-        .then((bar)=> {
-            bar.isFeatured = true
-            console.log(bar)
-            res.redirect('/')
-        }).catch((err) => {
-            console.log(err)
-        })
+    console.log('$$$$$', req.body)
+    console.log(req.body.isFeatured)
+    console.log('LENGTH', req.body.isFeatured.length)
+    // let item =[];
+    // if(req.body.isFeatured.length > 0){
+    //     req.body.isFeatured.forEach((list) => {
+    //         item.push(list)
+    //     })
+        
+    // } else {
+    //     item.push(req.body.isFeatured)
+    // }
 
-    })
-    
+    // // if(req.body.isFeatured){
+    // if(item){
+    //     Bar.find()
+    //     .then((bars) => {
+    //         bars.forEach((bar) => {
+    //             bar.isFeatured = false;
+    //             bar.save()
+    //             .then(() => {
+    //                 console.log('AAAAAAA--------------', bar)
+
+    //                 // req.body.isFeatured.forEach((itemID) => {
+    //                 item.forEach((itemID) => {
+    //                     Bar.findById(itemID)
+    //                     .then((b)=> {
+    //                         b.isFeatured = true
+    //                         console.log('XXXXX--------------', b)
+    //                         b.save()
+    //                         .then(() => {
+    //                             res.redirect('/')
+    //                         }).catch((err) => {
+    //                             console.log(err)
+    //                         })
+    //                     }).catch((err) => {
+    //                         console.log(err)
+    //                     })
+            
+    //                 })
+
+    //             })
+    //         })
+    //     }).catch((err) => {console.log(err)})
+
+        
+    // } else {
+    //     res.send('select bars for featured')
+    // }
 })
 
+
+
+
+//POST TO UPDATE FEATURE LIST
+// userRouter.post('/admin/featured', (req,res) => {
+//     // console.log(req.user)
+//     console.log(req.body)
+//     console.log(req.body.isFeatured)
+
+    
+
+//     if(req.body.isFeatured){
+//         Bar.find()
+//         .then((bars) => {
+//             bars.forEach((bar) => {
+//                 bar.isFeatured = false;
+//                 bar.save()
+//                 .then(() => {
+//                     console.log('AAAAAAA--------------', bar)
+
+
+
+//                 })
+//             })
+//         }).catch((err) => {console.log(err)})
+
+
+//         req.body.isFeatured.forEach((itemID) => {
+//             Bar.findById(itemID)
+//             .then((b)=> {
+//                 b.isFeatured = true
+//                 console.log('XXXXX--------------', b)
+//                 b.save()
+//                 .then(() => {
+//                     res.redirect('/')
+//                 })
+//             }).catch((err) => {
+//                 console.log(err)
+//             })
+
+//         })
+//     } else {
+//         res.send('select bars for featured')
+//     }
+// })
 
 module.exports = userRouter;

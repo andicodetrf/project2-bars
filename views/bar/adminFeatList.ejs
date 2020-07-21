@@ -4,20 +4,22 @@
     <form action="/user/admin/featured" method="POST">
     <% allBars.forEach((bar) => { %>
 
-        if(bar.isFeatured){
-    <div>
-        <input type="checkbox" 
-            name="isFeatured" 
-            value="<%=bar._id%>" 
-            checked> <%=bar.barName %>
-    </div>
-<% } else {%>
-    <div>
-        <input type="checkbox" 
-            name="isFeatured" 
-            value="<%=bar._id%>" 
-        > <%=bar.barName %>
-    </div>
+    <% if(bar.isFeatured){ %> 
+        <div>
+            <input type="checkbox" 
+                name="isFeatured" 
+                value='<%= bar._id%>'
+                checked> <%=bar.barName %>
+        </div>
+    <% } else {%>
+        <div>
+            <input type="checkbox" 
+                name="isFeatured" 
+                value='<%=bar._id%>'
+            > <%=bar.barName %>
+        </div>
+
+        <% } %>
 
     <% }) %>
     
