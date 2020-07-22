@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
+const cloudinary =require('cloudinary')
 const Location = require('./models/location.model');
 
 //WHEN PUSH TO SERVER FOR DEPLOYMENT
@@ -49,6 +50,12 @@ app.use(
         store: new MongoStore({ url: process.env.MONGODBLIVE }),
     })
 );
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
 
 //these passports init must be after sessions
 app.use(passport.initialize());

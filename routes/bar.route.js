@@ -113,7 +113,8 @@ barRouter.get("/advSearch", async (req, res) => {
 	
 	try {
 
-		let searchLoc = req.query.locORbrew.toLowerCase();
+		let searchLoc = req.query.locORbrew
+		let lowerCaseSearcLoc = req.query.locORbrew.toLowerCase();
 		let searchHHPrice = req.query.HHPrice
 		let totalResults = await Bar.find().populate('barLocate')
 
@@ -121,9 +122,9 @@ barRouter.get("/advSearch", async (req, res) => {
 
 	
 		let searchedResults = totalResults.filter(bar => {
-			return bar.barLocate.locationName.toLowerCase().includes(req.query.locORbrew) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			// return bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
 			
-		// 	return (bar.barLocate.locationName.toLowerCase().includes(searcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(searcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(searcLoc))) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			return (bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(lowerCaseSearcLoc))) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
 				
 		});
 

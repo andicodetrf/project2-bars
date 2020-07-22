@@ -256,7 +256,7 @@ userRouter.post('/admin/featured', (req,res) => {
     // console.log(req.user)
     console.log('$$$$$', req.body)
     console.log(req.body.isFeatured)
-    console.log('LENGTH', req.body.isFeatured.length)
+    // console.log('LENGTH', req.body.isFeatured.length)
     let items = req.body.isFeatured
  
 
@@ -313,7 +313,16 @@ userRouter.post('/admin/featured', (req,res) => {
     // } else {
     //     res.send('select bars for featured')
     // }
-}})
+} else {
+
+    Bar.updateMany({$set: { isFeatured: false }}).then((bar) => {
+        console.log('else-----------------', bar)
+        res.redirect('/')
+    })
+ 
+    }
+
+})
 
 
 

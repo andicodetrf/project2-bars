@@ -1,4 +1,9 @@
-<style>.carousel-inner > .carousel-item > img { max-height:570px; } </style>
+<style>
+  .carousel-inner > .carousel-item > img {
+    height: 300px;
+    object-fit: cover;
+  }
+ </style>
 
 <div class="container">
 
@@ -27,7 +32,7 @@
               </a>
             <% } else { %>
               
-              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
             <% } %>
           </div>
           <div class="carousel-item">
@@ -36,11 +41,11 @@
                 <% if(arr[1].barImage){ %>
                   <img src="<%= arr[1].barImage %>" class="d-block w-100 "  alt="...">
                 <% } else { %>
-                  <img src="https://www.playadelcarmensrealestate.com/wp-content/themes/realestate-7/images/no-image.png" class="d-block w-100 "  alt="...">
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
                 <% } %>
               </a>
             <% } else { %>
-              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
             <% } %>
           </div>
           <div class="carousel-item">
@@ -49,11 +54,11 @@
                 <% if(arr[2].barImage){ %>
                   <img src="<%= arr[2].barImage %>" class="d-block w-100 "  alt="...">
                 <% } else { %>
-                  <img src="https://stamandtrade.com/wp-content/uploads/2017/03/no-image-available.jpg" class="d-block w-100 "  alt="...">
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
                 <% } %>
               </a>
             <% } else { %>
-              <img src="https://i.pinimg.com/originals/b1/d6/fc/b1d6fc9c33e7ff8db8ff7006575ab2df.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
           <% } %>
           </div>
         </div>
@@ -85,7 +90,13 @@
             <div class="card-body">
               <h5 class="card-title"><%= bar.barName %></h5>
               <p class="card-text"><%= bar.barLocate.locationName %></p>
-              <p class="card-text">Happy Hour Starts from $<%= bar.HHStartPrice %></p>
+              <p class="card-text text-muted">Brews: <%= bar.pintPrice[0].brewType %>
+                <% if(bar.pintPrice[1].brewType){ %>
+                 , <%= bar.pintPrice[1].brewType %>
+                     <% } %>
+                </p>
+             <p class="card-text">Happy Hour Starts at $<%= bar.HHStartPrice %></p>
+             <p class="card-text">Happy Hours: <%= bar.HHStartTime %> -  <%= bar.HHEndTime %></p>
             </div>
           </div>
         </div>
