@@ -10,6 +10,9 @@ const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
 const Location = require('./models/location.model');
 
+//WHEN PUSH TO SERVER FOR DEPLOYMENT
+const PORT = process.env.PORT;
+
 
 Mongoose.Promise = Promise;
 
@@ -44,7 +47,7 @@ app.use(
         saveUninitialized: true,
         resave: false,
         cookie: {maxAge : 3600000}, //0.1 hour
-        store: new MongoStore({ url: process.env.MONGODBURL }),
+        store: new MongoStore({ url: process.env.MONGODBLIVE }),
     })
 );
 
