@@ -4,22 +4,33 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 const passport = require('./lib/passportConfig');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
 const Location = require('./models/location.model');
 
+
+Mongoose.Promise = Promise;
+
 /* Connect to MongoDB */
-Mongoose.connect(process.env.MONGODBURL, {
+Mongoose
+  .connect(process.env.MONGODBLIVE, {
     useNewUrlParser: true,
     useUnifiedTopology: true, 
     useFindAndModify: false,
     useCreateIndex: true,
-}, 
-() => {
-    console.log('MongoDB Connected')
-}
-);
+  })
+  .then(() => {
+    console.log("mongodb is running!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+  app.get('/about', (req,res) => {
+    res.send('about page')
+  })
 
 /* MIDDLEWARE */
 app.use(express.static('public'));
@@ -32,7 +43,8 @@ app.use(
         secret: process.env.SECRET,
         saveUninitialized: true,
         resave: false,
-        cookie: {maxAge : 3600000} //0.1 hour
+        cookie: {maxAge : 3600000}, //0.1 hour
+        store: new MongoStore({ url: process.env.MONGODBURL }),
     })
 );
 

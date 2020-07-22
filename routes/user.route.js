@@ -109,7 +109,7 @@ userRouter.post('/create', (req,res) => {
                                 $push: {locateBar: newBar._id}
                             }).then(()=> {
                                 req.flash('success', 'bar created');
-                                res.redirect('/user/show');
+                                res.redirect(`/user/show/${req.params.userid}`);
                             })    
                     })
                 })
@@ -162,7 +162,7 @@ userRouter.post('/edit/:id', (req,res) => {
 
             updateBar
             .then(()=> {
-                res.redirect('/user/show');
+                res.redirect(`/user/show/${req.params.userid}`);
 
             })
             .catch(err => {
@@ -257,53 +257,63 @@ userRouter.post('/admin/featured', (req,res) => {
     console.log('$$$$$', req.body)
     console.log(req.body.isFeatured)
     console.log('LENGTH', req.body.isFeatured.length)
-    // let item =[];
-    // if(req.body.isFeatured.length > 0){
-    //     req.body.isFeatured.forEach((list) => {
-    //         item.push(list)
-    //     })
-        
-    // } else {
-    //     item.push(req.body.isFeatured)
-    // }
+    let items = req.body.isFeatured
+ 
 
-    // // if(req.body.isFeatured){
-    // if(item){
-    //     Bar.find()
-    //     .then((bars) => {
-    //         bars.forEach((bar) => {
-    //             bar.isFeatured = false;
-    //             bar.save()
-    //             .then(() => {
-    //                 console.log('AAAAAAA--------------', bar)
+    // if(req.body.isFeatured){
+    if(items){
+        //updateMany is from mongoDB
+        Bar.updateMany({$set: { isFeatured: false }}, function(err, bar) {
+            if(err){
+                console.log(err);
+            } else {
+                console.log('success');
 
-    //                 // req.body.isFeatured.forEach((itemID) => {
-    //                 item.forEach((itemID) => {
-    //                     Bar.findById(itemID)
-    //                     .then((b)=> {
-    //                         b.isFeatured = true
-    //                         console.log('XXXXX--------------', b)
-    //                         b.save()
-    //                         .then(() => {
-    //                             res.redirect('/')
-    //                         }).catch((err) => {
-    //                             console.log(err)
-    //                         })
-    //                     }).catch((err) => {
-    //                         console.log(err)
-    //                     })
+                let newArr = [];
+                items.forEach(barID => {
+                    newArr.push(Bar.findByIdAndUpdate(barID, {isFeatured: true}))
+                });
+                Promise.all(newArr).then(() => {
+                    res.redirect('/')
+                })
+
+            }
+        })
+        // Bar.find()
+        // .then((bars) => {
+        //     bars.forEach((bar) => {
+        //         bar.isFeatured = false;
+        //         bar.save()
+        //         .then(() => {
+        //             console.log('AAAAAAA--------------', bar)
+
+        //             // req.body.isFeatured.forEach((itemID) => {
+        //             item.forEach((itemID) => {
+        //                 Bar.findById(itemID)
+        //                 .then((b)=> {
+        //                     b.isFeatured = true
+        //                     console.log('XXXXX--------------', b)
+        //                     b.save()
+        //                     .then(() => {
+        //                         res.redirect('/')
+        //                     }).catch((err) => {
+        //                         console.log(err)
+        //                     })
+        //                 }).catch((err) => {
+        //                     console.log(err)
+        //                 })
             
-    //                 })
+        //             })
 
-    //             })
-    //         })
-    //     }).catch((err) => {console.log(err)})
+        //         })
+        //     })
+        // }).catch((err) => {console.log(err)})
 
         
     // } else {
     //     res.send('select bars for featured')
     // }
-})
+}})
 
 
 

@@ -26,11 +26,15 @@ barRouter.get("/locations/:id", async (req, res) => {
 		// let locate = await Location.findById(req.params.id);
 		//     res.render('bar/barsByLocation', {barsFound, locate})
 
-		let barsInLocation = await Location.findById(req.params.id).populate(
-			"locateBar"
-		);
+		let barsInLocation = await Location.findById(req.params.id)
+		.populate(
+			{path: "locateBar",
+			options: {sort: 'HHStartPrice'}, //mongoose
+		})
 
-		// console.log(barsInLocation);
+		// .sort('HHStartPrice');
+
+		console.log('############', barsInLocation);
 
 		res.render("bar/barsByLocation", { barsInLocation });
 	} catch (error) {
@@ -114,19 +118,22 @@ barRouter.get("/bar/:id", async (req, res) => {
 barRouter.get('/search', async (req,res) => {
 	
 	let searched = req.query.search;
-	console.log(req.query)
+	// console.log(req.query)
 
 	try {
-		console.log('line120')
+		
 		let totalResults = await Bar.find().populate('barLocate')
 
+		console.log('total results ----->', totalResults)
+
 		let searchedResults = totalResults.filter(bar => {
-            return bar.barName.toLowerCase().includes(req.query.search) ||
-				bar.barLocate.locationName.toLowerCase().includes(req.query.search) 
+            return bar.pintPrice[0].brewType.toLowerCase().includes(req.query.search) || bar.pintPrice[1].brewType.toLowerCase().includes(req.query.search) ||
+			bar.barName.toLowerCase().includes(req.query.search) ||
+				bar.barLocate.locationName.toLowerCase().includes(req.query.search) ||
+				bar.HHStartPrice.toString().includes(req.query.search) 
 				
-				// || bar.HHStartPrice.includes(parseInt(req.query.search));
 		});
-		console.log(searchedResults)
+		console.log('searchedResults----------', searchedResults)
 
 
 		res.render("bar/results", {
@@ -142,9 +149,9 @@ barRouter.get('/search', async (req,res) => {
 /*ADVANCED SEARCH */
 
 barRouter.get("/advSearch", async (req, res) => {
-	console.log("search input --> ", req.query);
+	
 
-	let searched = req.query;
+	// let searched = req.query;
 
 	try {
 
@@ -165,21 +172,32 @@ barRouter.get("/advSearch", async (req, res) => {
             
 		// console.log('XXXXXX' , searchedResults)
 
-		let searchedResults = await Bar.find({
-            
-			$and: [
-                // $text: { $search: "java coffee shop" } 
-				{ brewType : new RegExp(req.query.pintPrice[0].brewType, 'i')},
-				{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
-            ],
-            
+
+		let searchLoc = req.query.location
+		let searchHHPrice = req.query.HHPrice
+		let totalResults = await Bar.find().populate('barLocate')
+
+	
+		let searchedResults = totalResults.filter(bar => {
+            return bar.barLocate.locationName.toLowerCase().includes(req.query.location) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+				
 		});
+
+		// let searchedResults = await Bar.find({
+            
+		// 	$and: [
+        //         // $text: { $search: "java coffee shop" } 
+		// 		{ brewType : new RegExp(req.query.pintPrice[0].brewType, 'i')},
+		// 		{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
+        //     ],
+            
+		// });
 
 		if (searchedResults) {
 			console.log("from search ----> ", searchedResults);
 			res.render("bar/results", {
 				searchedResults,
-				searched,
+				searchLoc, searchHHPrice
 			});
 		}
 	} catch (error) {}

@@ -7,14 +7,14 @@
     <% if(bar.isFeatured){ %> 
         <div>
             <input type="checkbox" 
-                name="isFeatured" 
+                name="isFeatured[]" 
                 value='<%= bar._id%>'
                 checked> <%=bar.barName %>
         </div>
     <% } else {%>
         <div>
             <input type="checkbox" 
-                name="isFeatured" 
+                name="isFeatured[]" 
                 value='<%=bar._id%>'
             > <%=bar.barName %>
         </div>
