@@ -8,7 +8,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
-const cloudinary =require('cloudinary')
+const cloudinary = require('cloudinary');
 const Location = require('./models/location.model');
 
 //WHEN PUSH TO SERVER FOR DEPLOYMENT
@@ -18,7 +18,7 @@ Mongoose.Promise = Promise;
 
 /* Connect to MongoDB */
 Mongoose
-  .connect(process.env.MONGODBURL, {
+  .connect(process.env.MONGODBLIVE, {
     useNewUrlParser: true,
     useUnifiedTopology: true, 
     useFindAndModify: false,
@@ -47,7 +47,7 @@ app.use(
         saveUninitialized: true,
         resave: false,
         cookie: {maxAge : 3600000}, //0.1 hour
-        store: new MongoStore({ url: process.env.MONGODBLIVE }),
+        // store: new MongoStore({ url: process.env.MONGODBLIVE }),
     })
 );
 

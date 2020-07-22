@@ -64,7 +64,7 @@ authRouter.post("/login",
 
 authRouter.get("/logout", (req, res) => {
     req.logout();
-    req.flash("success", "Oh no!! dont leave me!!")
+    req.flash("success", "You have logged out!")
     res.redirect('/')
   });
 

@@ -5,46 +5,11 @@ const userRouter = require('express').Router();
 const User = require('../models/user.model');
 const Bar = require('../models/bar.model');
 const Location = require('../models/location.model');
-const isLoggedIn = require('../lib/loginBlocker');
 const multer = require('multer');
-const path = require('path');
-
-//SET STORAGE ENGINE
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-    filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-})
-
-//INIT UPLOAD 
-const upload = multer({
-    storage: storage,
-    limits: {fileSize: 5000000}, 
-    fileFilter: function(req,file,cb){
-        checkFileType(file,cb);
-    }
-}).single('barImage');
-
-
-//CHECKUPLOADFILE
-function checkFileType(file, cb){
-    //allowed ext
-    const filetypes = /jpeg|jpg|png/;
-
-    //check ext
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-    //checkmime
-    const mimetype = filetypes.test(file.mimetype);
-
-    if(mimetype && extname){
-        return cb(null, true);
-    } else {
-        cb('Error: .jpg, .jpeg, .png only')
-    }
-
-}
+const upload = multer({ dest: './public/uploads' });
+const cloudinary = require("cloudinary");
+// const isLoggedIn = require('../lib/loginBlocker');
+// const path = require('path');
 
 
 userRouter.get('/show/:userid', async (req,res) => {
@@ -85,19 +50,14 @@ userRouter.get('/create', async (req,res) => {
 })
 
 
-userRouter.post('/create', (req,res) => {
+userRouter.post('/create', upload.single("barImage"), (req,res) => {
     // console.log(req.body);
-    upload(req,res, (err) => {
-        if(err){
-            res.render('user/uploadImgErr', {msg:err})
-        } else {
+    if(req.file){
+        cloudinary.uploader.upload(req.file.path, (result) => {
             console.log(req.file);
             let newBar = new Bar(req.body)
 
-            if(req.file){
-
-                newBar.barImage = `/uploads/${req.file.filename}`
-            }
+            newBar.barImage = result.url;
 
             newBar            
             .save()
@@ -108,16 +68,36 @@ userRouter.post('/create', (req,res) => {
                             Location.findByIdAndUpdate(req.body.barLocate, {
                                 $push: {locateBar: newBar._id}
                             }).then(()=> {
-                                req.flash('success', 'bar created');
+                                req.flash('success', 'Your bar has been created!');
                                 res.redirect(`/user/show/${req.params.userid}`);
                             })    
                     })
                 })
-                .catch((error) => {
-                    console.log(error)
+            .catch((error) => {
+                console.log(error)
+            })
+        });
+    } else {
+        let newBar = new Bar(req.body)
+
+            newBar            
+            .save()
+            .then(() => {
+                User.findByIdAndUpdate(req.user._id, {
+                    $push: {barsOwned: newBar._id}
+                }).then(() => {
+                            Location.findByIdAndUpdate(req.body.barLocate, {
+                                $push: {locateBar: newBar._id}
+                            }).then(()=> {
+                                req.flash('success', 'Your bar has been created!');
+                                res.redirect(`/user/show/${req.params.userid}`);
+                            })    
+                    })
                 })
-        }
-    });
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 })
 
 
@@ -141,57 +121,67 @@ userRouter.get('/edit/:id', async (req,res) => {
 
 
 //with multer
-userRouter.post('/edit/:id', (req,res) => {
-    let barID = req.params.id;
-    // console.log('edit post ---> ', req.body)
-    upload(req,res, (err) => {
-        if(err){
-            res.render('user/replaceImgErr', {msg:err, barID})
-        } else {
-            console.log(req.file)
+userRouter.post('/edit/:id', upload.single("barImage"), (req,res) => {
+    // let barID = req.params.id;
+    
+    if(req.file){
+        cloudinary.uploader.upload(req.file.path, (result) => {
+
             let updateBar;
 
-            if(!req.file) {
-                updateBar = Bar.findByIdAndUpdate(req.params.id, req.body)
-
-            } else {
                 let { barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice} = req.body;
 
-                updateBar = Bar.findByIdAndUpdate(req.params.id, {barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice, barImage: `/uploads/${req.file.filename}`})
-            }
+                updateBar = Bar.findByIdAndUpdate(req.params.id, {barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice, barImage: result.url})
 
-            updateBar
+                updateBar
+                .then(()=> {
+                    req.flash('success', 'Your bar has been updated!');
+                    res.redirect(`/user/show/${req.params.userid}`);
+
+                })
+                .catch(err => {
+                console.log(err);
+                })
+
+        })
+    } else {
+
+        Bar.findByIdAndUpdate(req.params.id, req.body)
+
             .then(()=> {
-                res.redirect(`/user/show/${req.params.userid}`);
+                    req.flash('success', 'Your bar has been updated!');
+                    res.redirect(`/user/show/${req.params.userid}`);
 
             })
             .catch(err => {
-            console.log(err);
+                console.log(err);
             })
-        }
-    })
+    } 
+
 })
 
 
-//ORIGINAL EDIT BAR
-// userRouter.post('/edit/:id', async (req,res) => {
+// console.log(req.file)
+//             let updateBar;
 
-//     // console.log('edit post ---> ', req.body)
-//     try {
-    
-//             let updateBar = await Bar.findByIdAndUpdate(req.params.id, req.body)
-            
-//             if(updateBar) {
-//                 // res.send('bar updated')
-//                 res.redirect('/user/show');
+//             if(!req.file) {
+//                 updateBar = Bar.findByIdAndUpdate(req.params.id, req.body)
 
+//             } else {
+//                 let { barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice} = req.body;
+
+//                 updateBar = Bar.findByIdAndUpdate(req.params.id, {barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice, barImage: `/uploads/${req.file.filename}`})
 //             }
-     
-//     } catch(error){
-//         console.log(error);
-//     }
 
-// })
+//             updateBar
+//             .then(()=> {
+//                 res.redirect(`/user/show/${req.params.userid}`);
+
+//             })
+//             .catch(err => {
+//             console.log(err);
+//             })
+
 
 /* DELETE BAR */
 userRouter.get('/delete/:barid/:userid', async (req,res) => {
@@ -216,17 +206,6 @@ userRouter.get('/delete/:barid/:userid', async (req,res) => {
     }
 })
 
-// userRouter.get('/delete/:id', (req, res) => {
-//     if (req.user.isBarOwner) {
-//         Bar.findByIdAndDelete(req.params.id)
-//         .then(() => {
-//             User.findByIdAndUpdate(req.user._id, { $pull: { barsOwned: req.params.id }})
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-//     }
-// });
 
 //ADMIN ONLY
 userRouter.get('/admin/settings', (req,res) => {

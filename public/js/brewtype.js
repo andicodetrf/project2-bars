@@ -3,8 +3,6 @@
 
 
 // function addBrewType() {
-//     let newBrewTypeRow = document.createElement('div')
-
-    
+//     let newBrewTypeRow = document.createElement('div')  
 
 // }
