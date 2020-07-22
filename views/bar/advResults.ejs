@@ -1,0 +1,28 @@
+<div class="container">
+
+
+    <h2 class="mt-3"> Advanced Searched Results for "<%= searchLoc %>" & "<%= searchHHPrice %>" </h2>
+  
+  
+      <div class="row my-5">
+      <% searchedResults.forEach((bar) => { %>
+  
+          <div class="col-md-4">
+  
+              <div class="card" style="width: 18rem;">
+                  <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" alt="...">
+                  <div class="card-body">
+                  <h5 class="card-title"><%= bar.barName %></h5>
+                  <p class="card-text">HH at $<%= bar.HHStartPrice %></p>
+                  <p class="card-text"> <%= bar.barLocate.locationName %></p>
+                  <a href="/bar/bar/<%= bar._id %>" class="btn btn-primary">Check it out</a>
+                  </div>
+              </div>
+          </div>
+  
+          <% }) %>
+  
+      </div>
+  
+  
+  </div>

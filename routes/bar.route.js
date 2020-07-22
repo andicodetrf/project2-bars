@@ -67,7 +67,6 @@ barRouter.get("/bar/:id", async (req, res) => {
 				console.log('bfr', barFinalR)
 			}
 
-
 			// console.log(barFound)
 			res.render("bar/barInfo", { barFound});
 		
@@ -76,44 +75,6 @@ barRouter.get("/bar/:id", async (req, res) => {
 	}
 });
 
-/* SEARCH */
-
-// barRouter.get("/search", async (req, res) => {
-// 	console.log("search input --> ", req.query.search);
-
-// 	let searchedRes = req.query.search;
-
-// 	try {
-
-// 		let results = await Bar.find({
-//             // if(searhed)
-// 			$or: [
-//                 // $text: { $search: "java coffee shop" } 
-// 				// { barName : {$eq : new RegExp(req.query.search, 'i')}},
-// 				{ HHStartPrice: { $eq: req.query.search } },
-//             ],
-            
-// 		});
-
-// 		if (results) {
-// 			console.log("from search ----> ", results);
-// 			res.render("bar/results", {
-// 				results,
-// 				searchedRes,
-// 			});
-// 		}
-// 	} catch (error) {}
-
-// 	// .then((results) => {
-// 	//     console.log('from search ----> ', results);
-// 	//     res.render("bar/results", {
-// 	//         results, searchedRes
-// 	//     })
-// 	// })
-// 	// .catch(err => {
-// 	//     console.log(err);
-// 	// })
-// });
 
 barRouter.get('/search', async (req,res) => {
 	
@@ -150,52 +111,25 @@ barRouter.get('/search', async (req,res) => {
 
 barRouter.get("/advSearch", async (req, res) => {
 	
-
-	// let searched = req.query;
-
 	try {
 
-		// let searchedResults = await Bar.find().populate('barLocate')
-
-
-		// let searchedResults = await Bar.find().populate({
-		// 	path: 'barLocate',
-		// 	match : {            
-		// 			$and: [
-		// 				// $text: { $search: "java coffee shop" } 
-		// 				{ barLocate : new RegExp(req.query.locationName, 'i')},
-		// 				{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
-		// 			],
-					
-		// 		}
-		// 	})
-            
-		// console.log('XXXXXX' , searchedResults)
-
-
-		let searchLoc = req.query.location
+		let searchLoc = req.query.locORbrew.toLowerCase();
 		let searchHHPrice = req.query.HHPrice
 		let totalResults = await Bar.find().populate('barLocate')
 
+		console.log(searchLoc)
+
 	
 		let searchedResults = totalResults.filter(bar => {
-            return bar.barLocate.locationName.toLowerCase().includes(req.query.location) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			return bar.barLocate.locationName.toLowerCase().includes(req.query.locORbrew) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			
+		// 	return (bar.barLocate.locationName.toLowerCase().includes(searcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(searcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(searcLoc))) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
 				
 		});
 
-		// let searchedResults = await Bar.find({
-            
-		// 	$and: [
-        //         // $text: { $search: "java coffee shop" } 
-		// 		{ brewType : new RegExp(req.query.pintPrice[0].brewType, 'i')},
-		// 		{ HHStartPrice: { $gte: req.query.HHPrice || 5 } },
-        //     ],
-            
-		// });
-
 		if (searchedResults) {
 			console.log("from search ----> ", searchedResults);
-			res.render("bar/results", {
+			res.render("bar/advResults", {
 				searchedResults,
 				searchLoc, searchHHPrice
 			});

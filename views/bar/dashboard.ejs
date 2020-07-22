@@ -1,6 +1,14 @@
+<style>.carousel-inner > .carousel-item > img { max-height:570px; } </style>
+
 <div class="container">
 
-    <h2>Dashboard</h2>
+  <% let arr = [] %>
+  <% featuredBars.forEach((bar) => { %>
+    <% if(bar.isFeatured){ %>
+      <% arr.push(bar) %>
+   <% } %>
+  <% }) %>
+
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -9,13 +17,44 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block" style="width: 100vw; height: 70vh; object-fit: cover;" alt="...">
+            <%if(arr[0]) {%>
+              <a href="/bar/bar/<%=arr[0]._id %>">
+                <% if(arr[0].barImage){ %>
+                  <img src="<%= arr[0].barImage %>" class="d-block w-100 "  alt="...">
+                <% } else { %>
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+                <% } %>
+              </a>
+            <% } else { %>
+              
+              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+            <% } %>
           </div>
           <div class="carousel-item">
-            <img src="https://media.timeout.com/images/103678014/image.jpg" class="d-block" style="width: 100vw; height: 70vh; object-fit: cover;" alt="...">
+            <%if(arr[1]) {%>
+              <a href="/bar/bar/<%=arr[1]._id %>">
+                <% if(arr[1].barImage){ %>
+                  <img src="<%= arr[1].barImage %>" class="d-block w-100 "  alt="...">
+                <% } else { %>
+                  <img src="https://www.playadelcarmensrealestate.com/wp-content/themes/realestate-7/images/no-image.png" class="d-block w-100 "  alt="...">
+                <% } %>
+              </a>
+            <% } else { %>
+              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+            <% } %>
           </div>
           <div class="carousel-item">
-            <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block" style="width: 100vw; height: 70vh; object-fit: cover;" alt="...">
+            <%if(arr[2]) {%>
+              <a href="/bar/bar/<%=arr[2]._id %>">
+                <% if(arr[2].barImage){ %>
+                  <img src="<%= arr[2].barImage %>" class="d-block w-100 "  alt="...">
+                <% } else { %>
+                  <img src="https://stamandtrade.com/wp-content/uploads/2017/03/no-image-available.jpg" class="d-block w-100 "  alt="...">
+                <% } %>
+              </a>
+            <% } else { %>
+              <img src="https://i.pinimg.com/originals/b1/d6/fc/b1d6fc9c33e7ff8db8ff7006575ab2df.jpg" class="d-block w-100 "  alt="...">
+          <% } %>
           </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -29,42 +68,45 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 mt-5">
+      
+      <% let max = 3 %>
+      <% let count = 0 %>
+      <% featuredBars.forEach((bar) => { %>
+        <% if(bar.isFeatured){ %>
+          <% if(count < max){ %>
+          
         <div class="col mb-4">
           <div class="card">
-            <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
+           <% if(bar.barImage){ %>
+            <img src="<%= bar.barImage %>" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
+            <% } else { %>
+              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
+           <%  } %>
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Bar 1</p>
+              <h5 class="card-title"><%= bar.barName %></h5>
+              <p class="card-text"><%= bar.barLocate.locationName %></p>
+              <p class="card-text">Happy Hour Starts from $<%= bar.HHStartPrice %></p>
             </div>
           </div>
         </div>
-        <div class="col mb-4">
-          <div class="card">
-            <img src="https://media.timeout.com/images/103678014/image.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Bar 2</p>
-            </div>
-          </div>
-        </div>
-        <div class="col mb-4">
-          <div class="card">
-            <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Bar 3</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
+        <% count++ %>
+        <% } %>
+        <% } %>
+      <% }) %>
+
+    </div>
+      <hr> 
 
       <div class="container mb-5">
         <form action="/bar/advSearch" method="GET">
     
-            <label for="">Advanced Search</label>
-            <input type="text" class="form-control" name="location" id="" placeholder="Push">
+            <h5 class="text-muted">Advanced Search: </h5>
+            <label class="text-muted">Locations OR Brews</label>
+            <input type="text" class="form-control" name="locORbrew" id="" placeholder="Try.. Boat Quay or Lager or Stout">
     
+            
+            <label class="text-muted mt-3">HappyHour Price</label>
             <input type="text" class="form-control" name="HHPrice" id="" placeholder="10">
     
             <button class="btn btn-info my-2" type="submit">Search</button>

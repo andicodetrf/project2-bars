@@ -11,14 +11,13 @@ require('dotenv').config();
 const Location = require('./models/location.model');
 
 //WHEN PUSH TO SERVER FOR DEPLOYMENT
-const PORT = process.env.PORT;
-
+//PORT SMTH SMTH
 
 Mongoose.Promise = Promise;
 
 /* Connect to MongoDB */
 Mongoose
-  .connect(process.env.MONGODBLIVE, {
+  .connect(process.env.MONGODBURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true, 
     useFindAndModify: false,
@@ -31,9 +30,9 @@ Mongoose
     console.log(e);
   });
 
-  app.get('/about', (req,res) => {
-    res.send('about page')
-  })
+  // app.get('/about', (req,res) => {
+  //   res.send('about page')
+  // })
 
 /* MIDDLEWARE */
 app.use(express.static('public'));
@@ -70,6 +69,7 @@ app.use('/auth', require('./routes/auth.route'));
 app.use('/location', require('./routes/location.route'));
 app.use('/bar', require('./routes/bar.route'));
 app.use('/user', isLoggedIn, require('./routes/user.route'));
+app.use('/', require('./routes/main.route'));
 
 
 
@@ -78,11 +78,7 @@ app.use('/user', isLoggedIn, require('./routes/user.route'));
 
 /*test browser connect*/
 
-app.get('/', (req,res) => {
-    // res.send('port 4200 home page')
-    res.render('bar/dashboard')
 
-})
 
 
 
