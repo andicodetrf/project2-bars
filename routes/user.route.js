@@ -133,7 +133,7 @@ userRouter.post('/edit/:id', upload.single("barImage"), (req,res) => {
 
                 let { barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice} = req.body;
 
-                updateBar = Bar.findByIdAndUpdate(req.params.id, {barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice, barImage: result.url})
+                updateBar = Bar.findByIdAndUpdate(req.params.id, {barName, barLocate, address, contactNo, openingHour, HHStartTime, HHEndTime, HHStartPrice,pintPrice, barImage: result.secure_url})
 
                 updateBar
                 .then(()=> {
