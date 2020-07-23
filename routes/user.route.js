@@ -104,7 +104,6 @@ userRouter.post('/create', upload.single("barImage"), (req,res) => {
 
 
 /* EDIT BAR INFO */
-
 userRouter.get('/edit/:id', async (req,res) => {
         try {
             if(req.user.isBarOwner){
