@@ -4,12 +4,12 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 const passport = require('./lib/passportConfig');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+// const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const isLoggedIn = require('./lib/loginBlocker');
 require('dotenv').config();
 const cloudinary = require('cloudinary');
-const Location = require('./models/location.model');
+// const Location = require('./models/location.model');
 
 //WHEN PUSH TO SERVER FOR DEPLOYMENT
 //PORT SMTH SMTH

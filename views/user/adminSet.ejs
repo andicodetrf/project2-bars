@@ -1,6 +1,27 @@
 <div class="container">
 
+    <h5 class="my-3">Settings</h5>
     <li><a href="/location/create">Add Locations</a></li>
     <li><a href="/user/admin/featured">Edit Feature List</a></li>
+
+    <h5 class="my-3">List of Users and their Bars</h5>
+
+    <div>
+        <ol>
+    <% users.forEach((user)=> { %> 
+        <% if(user.email != "AD@gmail.com"){ %>
+        <div class="mb-4">
+
+            <li><div><%= user.fullname %> - <%= user.email %> </div></li>
+
+        <% user.barsOwned.forEach((bar) => { %>
+            <li class="list-group-item"><%= bar.barName %></li>
+        <% }) %>
+    
+    </div>
+    <% } %>
+    <% }) %>
+</ol>
+</div>
 
 </div>

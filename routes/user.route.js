@@ -209,7 +209,13 @@ userRouter.get('/delete/:barid/:userid', async (req,res) => {
 
 //ADMIN ONLY
 userRouter.get('/admin/settings', (req,res) => {
-    res.render('user/adminSet')
+
+    User.find().populate('barsOwned')
+    .then((users) => {
+        res.render('user/adminSet', {users})
+
+    })
+
     
 })
 

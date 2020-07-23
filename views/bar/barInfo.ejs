@@ -1,10 +1,12 @@
 <div class="container">
 
-  <p class="mt-3"><a href="/bar/locations/<%= barFound.barLocate._id %>">Bars in <%= barFound.barLocate.locationName %> </a></p>
+  <p class="mt-3"><a class="text-secondary" href="/bar/locations/<%= barFound.barLocate._id %>">< Bars in <%= barFound.barLocate.locationName %> </a></p>
     
     <% if(barFound.final_rating){ %>
       <h4 class="my-3"><u><%= barFound.barName %></u></h4>
       Ratings: <%=barFound.final_rating %> out of 5 (<%= barFound.rate_reviews.length %> Users)
+    <% } else { %>
+      <p class="text-muted">No ratings yet! <a class="text-info" href="/auth/login">Be the first!</a> </p>
     <% } %>
 
     <% let dispImg; %>

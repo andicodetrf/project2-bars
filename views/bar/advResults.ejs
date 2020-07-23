@@ -7,18 +7,28 @@
       <div class="row my-5">
       <% searchedResults.forEach((bar) => { %>
   
-          <div class="col-md-4">
-  
-              <div class="card" style="width: 18rem;">
-                  <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" alt="...">
-                  <div class="card-body">
-                  <h5 class="card-title"><%= bar.barName %></h5>
-                  <p class="card-text">HH at $<%= bar.HHStartPrice %></p>
-                  <p class="card-text"> <%= bar.barLocate.locationName %></p>
-                  <a href="/bar/bar/<%= bar._id %>" class="btn btn-primary">Check it out</a>
-                  </div>
-              </div>
-          </div>
+        <div class="col-md-4 mb-3">
+
+            <div class="card">
+                <a class="text-dark" href="/bar/bar/<%=bar._id%>">
+                <% if(bar.barImage){ %>
+                    <img src="<%=bar.barImage %>" class="card-img-top "  alt="...">
+               <% } else { %>
+                    <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" alt="...">
+               <% } %>
+                <div class="card-body">
+                <h5 class="card-title"><%= bar.barName %></h5>
+                <p class="card-text text-muted">Brews: <%= bar.pintPrice[0].brewType %>
+                   <% if(bar.pintPrice[1].brewType){ %>
+                    , <%= bar.pintPrice[1].brewType %>
+                        <% } %>
+                   </p>
+                <p class="card-text">Happy Hour Starts at $<%= bar.HHStartPrice %></p>
+                <p class="card-text">Happy Hours: <%= bar.HHStartTime %> -  <%= bar.HHEndTime %></p>
+                </div>
+                </a>
+            </div>
+        </div>
   
           <% }) %>
   

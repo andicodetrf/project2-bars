@@ -1,11 +1,11 @@
-<style>
+<!-- <style>
   .carousel-inner > .carousel-item > img {
-    height: 300px;
+    height: 55vh;
     object-fit: cover;
   }
- </style>
+ </style> -->
 
-<div class="container">
+<div class="container mt-5">
 
   <% let arr = [] %>
   <% featuredBars.forEach((bar) => { %>
@@ -25,40 +25,40 @@
             <%if(arr[0]) {%>
               <a href="/bar/bar/<%=arr[0]._id %>">
                 <% if(arr[0].barImage){ %>
-                  <img src="<%= arr[0].barImage %>" class="d-block w-100 "  alt="...">
+                  <img src="<%= arr[0].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  style="height: 55vh; object-fit: cover;" alt="...">
                 <% } %>
               </a>
             <% } else { %>
               
-              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" style="height: 55vh; object-fit: cover;" class="d-block w-100 "  alt="...">
             <% } %>
           </div>
           <div class="carousel-item">
             <%if(arr[1]) {%>
               <a href="/bar/bar/<%=arr[1]._id %>">
                 <% if(arr[1].barImage){ %>
-                  <img src="<%= arr[1].barImage %>" class="d-block w-100 "  alt="...">
+                  <img src="<%= arr[1].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } %>
               </a>
             <% } else { %>
-              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
             <% } %>
           </div>
           <div class="carousel-item">
             <%if(arr[2]) {%>
               <a href="/bar/bar/<%=arr[2]._id %>">
                 <% if(arr[2].barImage){ %>
-                  <img src="<%= arr[2].barImage %>" class="d-block w-100 "  alt="...">
+                  <img src="<%= arr[2].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;" alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  alt="...">
+                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } %>
               </a>
             <% } else { %>
-              <img src="/img/advertph.jpg" class="d-block w-100 "  alt="...">
+              <img src="/img/advertph.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
           <% } %>
           </div>
         </div>
@@ -82,6 +82,7 @@
           
         <div class="col mb-4">
           <div class="card">
+            <a class="text-dark" href="/bar/bar/<%= bar._id %>">
            <% if(bar.barImage){ %>
             <img src="<%= bar.barImage %>" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
             <% } else { %>
@@ -98,6 +99,7 @@
              <p class="card-text">Happy Hour Starts at $<%= bar.HHStartPrice %></p>
              <p class="card-text">Happy Hours: <%= bar.HHStartTime %> -  <%= bar.HHEndTime %></p>
             </div>
+          </a>
           </div>
         </div>
 

@@ -6,6 +6,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <!-- <link rel="stylesheet" type="text/css" href="/css/style.css"> -->
+
     <link rel="shortcut icon" type="image/png" href="/img/beerfav256.png">
 
     <title>BrewTime</title>
@@ -33,7 +35,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    
         <img src="/img/beerA32.png">
-        <a class="nav-link text-white" href="/">BrewTime <span class="sr-only">(current)</span></a>
+        <a class="nav-link text-warning" href="/">BrewTime <span class="sr-only">(current)</span></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -43,13 +45,13 @@
           <ul class="navbar-nav mr-auto">
             
             <li class="nav-item">
-              <a class="nav-link" href="/bar/locations">Locations</a>
+              <a class="nav-link text-warning" href="/bar/locations">Locations</a>
             </li>
 
             <% if(currentUser){ %>
               <% if(currentUser.isBarOwner){ %>
                     <li class="nav-item">
-                      <a class="nav-link" href="/user/show/<%= currentUser._id %>">Owner's Profile</a>
+                      <a class="nav-link text-warning" href="/user/show/<%= currentUser._id %>">Owner's Profile</a>
                     </li>
               <% } %>
             <% } %>
@@ -57,30 +59,30 @@
             <% if(currentUser){ %>
               <% if(currentUser.isAdmin){ %>
                     <li class="nav-item">
-                      <a class="nav-link" href="/user/admin/settings">Admin Settings</a>
+                      <a class="nav-link text-warning" href="/user/admin/settings">Admin Settings</a>
                     </li>
               <% } %>
             <% } %>
 
             <!-- <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
+              <a class="nav-link text-warning disabled" href="#">Disabled</a>
             </li> -->
           </ul>
 
           <form action="/bar/search" method="GET" class="form-inline my-2 my-lg-0">
             <input id="navSearch" name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
 
             <% if(!currentUser){ %>
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item ml-4">
-                    <a class="nav-link" href="/auth/login">Log In</a>
+                    <a class="nav-link text-warning" href="/auth/login">Log In</a>
                   </li>
               </ul>
             <% } else { %>
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item ml-4">
-                  <a class="nav-link" href="/auth/logout">Log Out</a>
+                  <a class="nav-link text-warning" href="/auth/logout">Log Out</a>
                 </li>
             </ul>
               

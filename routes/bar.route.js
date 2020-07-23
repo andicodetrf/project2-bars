@@ -79,6 +79,8 @@ barRouter.get("/bar/:id", async (req, res) => {
 barRouter.get('/search', async (req,res) => {
 	
 	let searched = req.query.search;
+	let searchedLowCase = req.query.search.toLowerCase();
+
 	// console.log(req.query)
 
 	try {
@@ -88,9 +90,9 @@ barRouter.get('/search', async (req,res) => {
 		console.log('total results ----->', totalResults)
 
 		let searchedResults = totalResults.filter(bar => {
-            return bar.pintPrice[0].brewType.toLowerCase().includes(req.query.search) || bar.pintPrice[1].brewType.toLowerCase().includes(req.query.search) ||
-			bar.barName.toLowerCase().includes(req.query.search) ||
-				bar.barLocate.locationName.toLowerCase().includes(req.query.search) ||
+            return bar.pintPrice[0].brewType.toLowerCase().includes(searchedLowCase) || bar.pintPrice[1].brewType.toLowerCase().includes(searchedLowCase) ||
+			bar.barName.toLowerCase().includes(searchedLowCase) ||
+				bar.barLocate.locationName.toLowerCase().includes(searchedLowCase) ||
 				bar.HHStartPrice.toString().includes(req.query.search) 
 				
 		});
