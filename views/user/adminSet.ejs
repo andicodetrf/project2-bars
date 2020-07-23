@@ -1,15 +1,20 @@
 <div class="container">
 
-    <h5 class="my-3">Settings</h5>
-    <li><a href="/location/create">Add Locations</a></li>
-    <li><a href="/user/admin/featured">Edit Feature List</a></li>
+    <div class="row">
+        <div class="col-md-12">
+        <h5 class="my-3">Settings</h5>
+        <li><a href="/location/create">Add Locations</a></li>
+        <li><a href="/user/admin/featured">Edit Feature List</a></li>
+    </div>
+    </div>
 
+<div class="row">
+    <div class="col-md-8">
     <h5 class="my-3">List of Users and their Bars</h5>
-
-    <div>
+    
         <ol>
     <% users.forEach((user)=> { %> 
-        <% if(user.email != "AD@gmail.com"){ %>
+        <% if(user.isBarOwner){ %>
         <div class="mb-4">
 
             <li><div><%= user.fullname %> - <%= user.email %> </div></li>
@@ -21,7 +26,24 @@
     </div>
     <% } %>
     <% }) %>
-</ol>
+    </ol>
 </div>
 
+
+<div class="col-md-4">
+<h5 class="my-3">List of Site Patrons</h5>
+
+    <ol>
+    <% users.forEach((user)=> { %> 
+        <% if(user.isPatron){ %>
+        <div class="mb-4">
+
+            <li><div><%= user.fullname %> - <%= user.email %> </div></li>
+
+        </div>
+        <% } %>
+        <% }) %>
+        </ol>
+    </div>
+</div>
 </div>
