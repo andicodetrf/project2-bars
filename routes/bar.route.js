@@ -132,39 +132,32 @@ barRouter.get("/advSearch", async (req, res) => {
 
 		let searchLoc = req.query.locORbrew
 		let lowerCaseSearcLoc = req.query.locORbrew.toLowerCase();
-		let searchHHPrice = req.query.HHPrice;
-		let searchNHPrice = req.query.NHPrice
+		let searchHHPrice;
+		let searchNHPrice;
+
+		if(!req.query.HHPrice && !req.query.NHPrice && lowerCaseSearcLoc){
+			searchHHPrice = '1';
+			searchNHPrice = '1';
+			
+		}
+
+
+		if(req.query.HHPrice){
+			searchHHPrice =  req.query.HHPrice;
+			searchNHPrice = '1';
+		} else if( req.query.NHPrice){
+			searchHHPrice =  '1';
+			searchNHPrice = req.query.NHPrice;
+		}
 
 		//BEFORE SORT
 		// let totalResults = await Bar.find().populate('barLocate')
 		
 		//RESULTS WILL NOW BE SORTED HHPRICE ASC
-		let totalResults = await Bar.find().populate('barLocate').sort({HHStartPrice:1}).populate('barLocate')
+		let totalResults = await Bar.find().populate('barLocate').sort({HHStartPrice:1})
 
-		//KEEP FOR RADIOBUTTON FILTER NEXT TIME
-		// let totalResults;
-		// if(searchHHPrice){
-		// 	totalResults = await Bar.find().sort({HHStartPrice:1}).populate('barLocate')
-		// 	console.log('a')
-		// } else if( searchNHPrice){
-		// 	totalResults = await Bar.find().populate('barLocate')
-		// 	totalResults.sort(function(a, b){
-		// 		return a.pintPrice[0].NHprice - b.pintPrice[0].NHprice
-		// 	})
-		// 	console.log('b----')
-		// 	totalResults.forEach((item)=> {
-		// 		console.log(item.pintPrice[0].NHprice)
-		// 	})
-		// } else {
-		// 	totalResults = await Bar.find().sort({HHStartPrice:1}).populate('barLocate')
-		// 	console.log('c')
-		// }
 
 		console.log(searchLoc)
-
-		// console.log(bar.pintPrice[0].NHprice.toString())
-		// // console.log(req.query.NHPrice)
-
 	
 		let searchedResults = totalResults.filter(bar => {
 			// return bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
@@ -172,7 +165,7 @@ barRouter.get("/advSearch", async (req, res) => {
 			// console.log('---')
 			// console.log(typeof (bar.pintPrice[0].NHprice).toString())
 			
-			return (bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(lowerCaseSearcLoc))) && (bar.HHStartPrice.toString().includes(req.query.HHPrice)) && (bar.pintPrice[0].NHprice).toString().includes(req.query.NHPrice) 
+			return (bar.pintPrice[0].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc)) && (bar.HHStartPrice.toString().includes(searchHHPrice)) && (bar.pintPrice[0].NHprice).toString().includes(searchNHPrice) 
 
 			//OR doesnt work
 			// && (bar.HHStartPrice.toString().includes(req.query.HHPrice) || (bar.pintPrice[0].NHprice).toString().includes(req.query.NHPrice))
