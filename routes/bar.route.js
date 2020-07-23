@@ -46,34 +46,49 @@ barRouter.get("/bar/:id", async (req, res) => {
 	try {
 		let barFound = await Bar.findById(req.params.id).populate("barLocate");
 
-        /*get value of final_rating but not yet update into bar*/
-        let total = 0;
-		let finalR = 0;
-		if(barFound.rate_reviews.length > 0){
-			barFound.rate_reviews.forEach((a)=> {
-				total = total + a;
-			})
-
-			console.log('total', total)
-			finalR = (total / barFound.rate_reviews.length).toFixed(1);
-
-			console.log(finalR)
-
-		}
-			/*update into bar*/
-			let barFinalR = await Bar.findByIdAndUpdate(req.params.id, {final_rating : finalR})
-
-			if(barFinalR){
-				console.log('bfr', barFinalR)
-			}
-
-			// console.log(barFound)
-			res.render("bar/barInfo", { barFound});
+		res.render("bar/barInfo", { barFound});
 		
 	} catch (error) {
 		console.log(error);
 	}
 });
+
+barRouter.post('/rate/:id', (req,res) => {
+	// console.log(req.body.rate_reviews);
+		
+    Bar.findByIdAndUpdate(req.params.id, {$push :{rate_reviews: req.body.rate_reviews}}, {new: true}
+    ).then((bar)=> { 
+
+		// console.log('post --> ', bar)
+
+		let total = 0;
+		let finalR = 0;
+		// console.log('LINE 88 LENGTH ---->', bar.rate_reviews.length)
+		if(bar.rate_reviews.length > 0){
+			bar.rate_reviews.forEach((a)=> {
+				total = total + a;
+			})
+
+			// console.log('total', total)
+			finalR = (total / bar.rate_reviews.length).toFixed(1);
+
+			// console.log(finalR)
+
+			} else {
+				finalR = req.body.rate_reviews;
+			}
+			/*update final rating into bar*/
+			Bar.findByIdAndUpdate(req.params.id, {final_rating : finalR})
+			.then((bar) => {
+				// console.log('------FINAL----->', bar)
+				res.redirect('/bar/bar/'+bar._id)
+			})
+        	
+    }).catch(err => {
+        console.log(err)
+    })
+
+})
 
 
 barRouter.get('/search', async (req,res) => {
@@ -85,7 +100,7 @@ barRouter.get('/search', async (req,res) => {
 
 	try {
 		
-		let totalResults = await Bar.find().populate('barLocate')
+		let totalResults = await Bar.find().sort({HHStartPrice:1}).populate('barLocate')
 
 		console.log('total results ----->', totalResults)
 
@@ -117,16 +132,50 @@ barRouter.get("/advSearch", async (req, res) => {
 
 		let searchLoc = req.query.locORbrew
 		let lowerCaseSearcLoc = req.query.locORbrew.toLowerCase();
-		let searchHHPrice = req.query.HHPrice
-		let totalResults = await Bar.find().populate('barLocate')
+		let searchHHPrice = req.query.HHPrice;
+		let searchNHPrice = req.query.NHPrice
+
+		//BEFORE SORT
+		// let totalResults = await Bar.find().populate('barLocate')
+		
+		//RESULTS WILL NOW BE SORTED HHPRICE ASC
+		let totalResults = await Bar.find().populate('barLocate').sort({HHStartPrice:1}).populate('barLocate')
+
+		//KEEP FOR RADIOBUTTON FILTER NEXT TIME
+		// let totalResults;
+		// if(searchHHPrice){
+		// 	totalResults = await Bar.find().sort({HHStartPrice:1}).populate('barLocate')
+		// 	console.log('a')
+		// } else if( searchNHPrice){
+		// 	totalResults = await Bar.find().populate('barLocate')
+		// 	totalResults.sort(function(a, b){
+		// 		return a.pintPrice[0].NHprice - b.pintPrice[0].NHprice
+		// 	})
+		// 	console.log('b----')
+		// 	totalResults.forEach((item)=> {
+		// 		console.log(item.pintPrice[0].NHprice)
+		// 	})
+		// } else {
+		// 	totalResults = await Bar.find().sort({HHStartPrice:1}).populate('barLocate')
+		// 	console.log('c')
+		// }
 
 		console.log(searchLoc)
+
+		// console.log(bar.pintPrice[0].NHprice.toString())
+		// // console.log(req.query.NHPrice)
 
 	
 		let searchedResults = totalResults.filter(bar => {
 			// return bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			// console.log(typeof req.query.NHPrice)
+			// console.log('---')
+			// console.log(typeof (bar.pintPrice[0].NHprice).toString())
 			
-			return (bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(lowerCaseSearcLoc))) && bar.HHStartPrice.toString().includes(req.query.HHPrice) 
+			return (bar.barLocate.locationName.toLowerCase().includes(lowerCaseSearcLoc) || (bar.pintPrice[0].brewType.toLowerCase().includes(lowerCaseSearcLoc) || bar.pintPrice[1].brewType.toLowerCase().includes(lowerCaseSearcLoc))) && (bar.HHStartPrice.toString().includes(req.query.HHPrice)) && (bar.pintPrice[0].NHprice).toString().includes(req.query.NHPrice) 
+
+			//OR doesnt work
+			// && (bar.HHStartPrice.toString().includes(req.query.HHPrice) || (bar.pintPrice[0].NHprice).toString().includes(req.query.NHPrice))
 				
 		});
 
@@ -134,7 +183,7 @@ barRouter.get("/advSearch", async (req, res) => {
 			console.log("from search ----> ", searchedResults);
 			res.render("bar/advResults", {
 				searchedResults,
-				searchLoc, searchHHPrice
+				searchLoc, searchHHPrice, searchNHPrice
 			});
 		}
 	} catch (error) {}
@@ -143,20 +192,5 @@ barRouter.get("/advSearch", async (req, res) => {
 
 
 
-
-barRouter.post('/rate/:id', (req,res) => {
-    console.log(req.body.rate_reviews);
-
-    Bar.findByIdAndUpdate(req.params.id, {$push :{rate_reviews: req.body.rate_reviews}
-    }).then((bar)=> {
-        console.log('post --> ', bar)
-        
-        res.redirect('/bar/bar/'+bar._id)
-
-    }).catch(err => {
-        console.log(err)
-    })
-
-})
 
 module.exports = barRouter;

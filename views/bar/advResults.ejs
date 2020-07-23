@@ -1,7 +1,7 @@
 <div class="container">
 
 
-    <h2 class="mt-3"> Advanced Searched Results for "<%= searchLoc %>" & "<%= searchHHPrice %>" </h2>
+    <h2 class="mt-3"> Advanced Searched Results for "<%= searchLoc %>" & "<%= searchHHPrice %>" & "<%= searchNHPrice %>"</h2>
   
   
       <div class="row my-5">
@@ -14,17 +14,24 @@
                 <% if(bar.barImage){ %>
                     <img src="<%=bar.barImage %>" class="card-img-top "  alt="...">
                <% } else { %>
-                    <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681" class="card-img-top" alt="...">
+                    <img src="/img/noImgph.jpg" class="card-img-top" alt="...">
                <% } %>
                 <div class="card-body">
                 <h5 class="card-title"><%= bar.barName %></h5>
+                <% if(bar.final_rating){ %>
+                    <p class="card-text">Ratings: <%= bar.final_rating %> / 5 (<%=bar.rate_reviews.length %>)</p>
+                <% } else { %>
+                        <p class="card-text">Ratings: --</p>
+                <% } %>
+                <p class="card-text"><%= bar.barLocate.locationName %></p>
                 <p class="card-text text-muted">Brews: <%= bar.pintPrice[0].brewType %>
                    <% if(bar.pintPrice[1].brewType){ %>
                     , <%= bar.pintPrice[1].brewType %>
                         <% } %>
                    </p>
-                <p class="card-text">Happy Hour Starts at $<%= bar.HHStartPrice %></p>
+                   <p class="card-text">Happy Hour Price: $<%= bar.HHStartPrice %> onwards</p>
                 <p class="card-text">Happy Hours: <%= bar.HHStartTime %> -  <%= bar.HHEndTime %></p>
+                <p class="card-text"><small>Normal Price: $<%= bar.pintPrice[0].NHprice %> onwards</small></p>
                 </div>
                 </a>
             </div>

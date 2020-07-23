@@ -5,15 +5,20 @@
     <% if(barFound.final_rating){ %>
       <h4 class="my-3"><u><%= barFound.barName %></u></h4>
       Ratings: <%=barFound.final_rating %> out of 5 (<%= barFound.rate_reviews.length %> Users)
+
     <% } else { %>
-      <p class="text-muted">No ratings yet! <a class="text-info" href="/auth/login">Be the first!</a> </p>
-    <% } %>
+        <% if(currentUser){ %>
+              <p class="text-muted">No ratings yet! <a class="text-info" href="#bottom">Rate below!</a> </p>
+          <% } else { %>
+            <p class="text-muted">No ratings yet! <a class="text-info" href="/auth/login">Be the first!</a> </p>
+          <% } %>
+        <% } %>
 
     <% let dispImg; %>
     <% if(barFound.barImage){ %>
       <% dispImg = barFound.barImage %>
     <% } else { %> 
-       <% dispImg = 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/08/02/10/beer-main-0.jpg?w968h681' %>
+       <% dispImg = '/img/noImgph.jpg' %>
       <% } %>
 
         <div class="card my-3">
@@ -26,13 +31,13 @@
               <p class="card-text text-muted">Contact No: <%= barFound.contactNo %></p>
               <p class="card-text text-muted">Happy Hours: <%= barFound.HHStartTime %> - <%= barFound.HHEndTime %></p>
               <p class="card-text text-muted">Brew: <%= barFound.pintPrice[0].brewType %> 
-                  <li class="list-group-item">Happy Hour @ $<%=barFound.pintPrice[0].HHprice %></li>
-                  <li class="list-group-item">Normal Hour @ $<%=barFound.pintPrice[0].NHprice %></li> 
+                  <li class="list-group-item">Happy Hour Price @ $<%=barFound.pintPrice[0].HHprice %></li>
+                  <li class="list-group-item">Normal Price @ $<%=barFound.pintPrice[0].NHprice %></li> 
                 </p>
               <% if(barFound.pintPrice[1].brewType) { %>
                 <p class="card-text text-muted">Brew: <%= barFound.pintPrice[1].brewType %>
-                  <li class="list-group-item">Happy Hour @ $<%=barFound.pintPrice[1].HHprice %></li>
-                  <li class="list-group-item">Normal Hour @ $<%=barFound.pintPrice[1].NHprice %></li> 
+                  <li class="list-group-item">Happy Hour Price @ $<%=barFound.pintPrice[1].HHprice %></li>
+                  <li class="list-group-item">Normal Price @ $<%=barFound.pintPrice[1].NHprice %></li> 
                 </p>
               <% } %>
               
@@ -44,6 +49,7 @@
           <% if(currentUser){ %>
             <% if(currentUser.isPatron){ %>
             
+          <a name="bottom">
           <div class="mb-5">
             <h5>Rate Bar</h5>
 
@@ -63,6 +69,7 @@
               <button class="btn btn-success" type="submit">Rate!</button>
             </form>
           </div>
+          </a>
 
         <% } %>
         <% } else {%> 

@@ -27,7 +27,7 @@
                 <% if(arr[0].barImage){ %>
                   <img src="<%= arr[0].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 "  style="height: 55vh; object-fit: cover;" alt="...">
+                  <img src="/img/noImgph.jpg" class="d-block w-100 "  style="height: 55vh; object-fit: cover;" alt="...">
                 <% } %>
               </a>
             <% } else { %>
@@ -41,7 +41,7 @@
                 <% if(arr[1].barImage){ %>
                   <img src="<%= arr[1].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
+                  <img src="/img/noImgph.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } %>
               </a>
             <% } else { %>
@@ -54,7 +54,7 @@
                 <% if(arr[2].barImage){ %>
                   <img src="<%= arr[2].barImage %>" class="d-block w-100 " style="height: 55vh; object-fit: cover;" alt="...">
                 <% } else { %>
-                  <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
+                  <img src="/img/noImgph.jpg" class="d-block w-100 " style="height: 55vh; object-fit: cover;"  alt="...">
                 <% } %>
               </a>
             <% } else { %>
@@ -86,17 +86,22 @@
            <% if(bar.barImage){ %>
             <img src="<%= bar.barImage %>" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
             <% } else { %>
-              <img src="https://epochtimes.today/wp-content/uploads/2019/03/1-2.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
+              <img src="/img/noImgph.jpg" style="height: 20vh; object-fit: cover;" class="card-img-top" alt="...">
            <%  } %>
             <div class="card-body">
               <h5 class="card-title"><%= bar.barName %></h5>
+              <% if(bar.final_rating){ %>
+                <p class="card-text">Ratings: <%= bar.final_rating %> / 5 (<%=bar.rate_reviews.length %>)</p>
+            <% } else { %>
+              <p class="card-text">Ratings: --</p>
+            <% } %>
               <p class="card-text"><%= bar.barLocate.locationName %></p>
               <p class="card-text text-muted">Brews: <%= bar.pintPrice[0].brewType %>
                 <% if(bar.pintPrice[1].brewType){ %>
                  , <%= bar.pintPrice[1].brewType %>
                      <% } %>
                 </p>
-             <p class="card-text">Happy Hour Starts at $<%= bar.HHStartPrice %></p>
+             <p class="card-text">Happy Hour Price: $<%= bar.HHStartPrice %> onwards</p>
              <p class="card-text">Happy Hours: <%= bar.HHStartTime %> -  <%= bar.HHEndTime %></p>
             </div>
           </a>
@@ -119,9 +124,14 @@
             <input type="text" class="form-control" name="locORbrew" id="" placeholder="Try.. Boat Quay or Lager or Stout">
     
             
-            <label class="text-muted mt-3">HappyHour Price</label>
-            <input type="text" class="form-control" name="HHPrice" id="" placeholder="10">
+            <label class="text-muted mt-3">Happy Hour Price</label>
+            <input type="text" class="form-control" name="HHPrice" id="HHadv" placeholder="10">
     
+
+            <label class="text-muted mt-3">Normal Price</label>
+            <input type="text" class="form-control" name="NHPrice" id="NHadv" placeholder="12">
+
+
             <button class="btn btn-info my-2" type="submit">Search</button>
     
         </form>
