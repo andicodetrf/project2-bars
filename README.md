@@ -94,8 +94,8 @@ As a [bar-goer], I'd like to [rate the bars] to [keep other bar goers informed]
 
 #### Bugs & Issues Faced
 1. Calculated ratings were always 1-step-behind during display. 
-    Resolved: adding {new: true} in findByIdAndUpdate()
-        From Mongoose Doc: "[options.new=false] «Boolean» By default, findByIdAndUpdate() returns the document as it was before update was applied. If you set new: true, findOneAndUpdate() will instead give you the object after update was applied."
+    - Resolved: adding {new: true} in findByIdAndUpdate()
+        - From Mongoose Doc: "[options.new=false] «Boolean» By default, findByIdAndUpdate() returns the document as it was before update was applied. If you set new: true, findOneAndUpdate() will instead give you the object after update was applied."
 
 
 
