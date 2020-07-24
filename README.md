@@ -8,8 +8,8 @@ Looking for the most affordable liquid gold in town?
 As a bar goer who prioritizes her bar visits based on happy hour prices, I found it extremely time-consuming searching for bars in a certain location that would inform me of their happy hour prices in a single site. Often, I had to visit several blog sites, scroll through the reviews to collect these information then I can ultimately decide which bar should my friends and I visit. 
 
 ### Site Usage
-1. To create and add your bar, create an account as a bar owner
-2. To rate bars, create an account as a patron
+- To create and add your bar, create an account as a bar owner
+- To rate bars, create an account as a patron
 
 ### Technologies
 1. Node.js
