@@ -32,7 +32,7 @@ As a [bar-goer], I'd like to [rate the bars] to [keep other bar goers informed]
 
 
 ### Wireframe
-<img src="MDfiles/BTwireframe.jpg">
+<img src="MDfiles/BTwireframe.png">
 <img src="MDfiles/sketchmodel.jpg">
 
 
