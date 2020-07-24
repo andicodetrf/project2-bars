@@ -31,10 +31,11 @@ As a [bar-goer], I'd want to [know the listing of available bars based on locati
 As a [bar-goer], I'd like to [rate the bars] to [keep other bar goers informed]
 
 
-### Wireframe
+### Wireframe 
 <img src="MDfiles/BTwireframe.png">
-<img src="MDfiles/sketchmodel.jpg">
 
+### ERD
+<img src="MDfiles/sketchmodel.jpg">
 
 #### Actual
 <img src="MDfiles/homepage.png">
