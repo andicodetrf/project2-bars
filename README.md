@@ -25,10 +25,10 @@ As a bar goer who prioritizes her bar visits based on happy hour prices, I found
 3. Location
 
 
-#### User Stories
-As a [bar-owner], I'd like [add/edit my bar listing and details] so that [bar goers on the app will be aware of my bar and its happy hour promotions]
-As a [bar-goer], I'd want to [know the listing of available bars based on location, happy hour price, brew types] in order to save time from looking through less relevant listings
-As a [bar-goer], I'd like to [rate the bars] to [keep other bar goers informed]
+### User Stories
+- As a [bar-owner], I'd like [add/edit my bar listing and details] so that [bar goers on the app will be aware of my bar and its happy hour promotions]
+- As a [bar-goer], I'd want to [know the listing of available bars based on location, happy hour price, brew types] in order to save time from looking through less relevant listings
+- As a [bar-goer], I'd like to [rate the bars] to [keep other bar goers informed]
 
 
 ### Wireframe 
