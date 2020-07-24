@@ -34,11 +34,10 @@ Access here: https://brewtime.herokuapp.com/
 
 ### Wireframe
 <img src="MDfiles/sketchedwireframe.jpg">
-<img src="MDfiles/sketchedmodel.jpg">
+<img src="MDfiles/sketchmodel.jpg">
 
 
 #### Actual
-
 
 
 ### MVP 
