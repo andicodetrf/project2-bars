@@ -54,17 +54,17 @@ authRouter.get('/login', (req,res) => {
 authRouter.post("/login",
     passport.authenticate("local", {
       successRedirect: "/", //after login success
-      failureRedirect: "/login", //if fail
-      failureFlash: "Invalid Username or Password",
-      successFlash: "You have logged In!"
+      failureRedirect: "/auth/login", //if fail
+      failureFlash: "Invalid Email or Password",
+      successFlash: "Welcome back!"
 
     })
-    // res.send('route: /auth/register')
+    
 )
 
 authRouter.get("/logout", (req, res) => {
     req.logout();
-    req.flash("success", "You have logged out!")
+    req.flash("success", "See you soon!")
     res.redirect('/')
   });
 
